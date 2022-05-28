@@ -14,16 +14,16 @@ const throttledTimeUpdate = throttle(takeValueSeconds, 1000);
 
 function takeValueSeconds(data) {
   localStorage.setItem(STORAGE_KEY, Number.parseInt(data.seconds));
-  player.setMuted(false);
+  // player.setMuted(false);
 }
 
 player.on('timeupdate', throttledTimeUpdate);
 
-function continuePLay() {
-  const seconds = localStorage.getItem(STORAGE_KEY);
-  player.setCurrentTime(Number.parseInt(seconds));
-  player.play();
-  player.setMuted(true);
-}
+// function continuePLay() {
+//   const seconds = localStorage.getItem(STORAGE_KEY);
+//   player.setCurrentTime(Number.parseInt(seconds));
+//   player.play();
+//   player.setMuted(true);
+// }
 
-window.addEventListener('load', continuePLay);
+// window.addEventListener('load', continuePLay);
