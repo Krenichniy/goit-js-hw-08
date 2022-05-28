@@ -5,18 +5,24 @@ const STORAGE_KEY = 'videoplayer-current-time';
 
 const player = new Player('vimeo-player');
 
-const throttledTimeUpdate = throttle(timeUpdate, 1000);
+const timeToStart = localStorage.getItem(STORAGE_KEY);
+if (timeToStart) {
+  player.setCurrentTime(timeToStart);
+}
 
-function timeUpdate({ seconds }) {
-  localStorage.setItem(STORAGE_KEY, seconds);
+const throttledTimeUpdate = throttle(takeValueSeconds, 1000);
+
+function takeValueSeconds(data) {
+  localStorage.setItem(STORAGE_KEY, Number.parseInt(data.seconds));
 }
 
 player.on('timeupdate', throttledTimeUpdate);
 
 function continuePLay() {
   const seconds = localStorage.getItem(STORAGE_KEY);
-  player.setCurrentTime(seconds);
+  player.setCurrentTime(Number.parseInt(seconds));
   player.play();
+  player.setMuted(true);
 }
 
 window.addEventListener('load', continuePLay);
