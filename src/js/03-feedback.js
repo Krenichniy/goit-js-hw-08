@@ -17,6 +17,7 @@ function onFormSubmit(event) {
   event.currentTarget.reset();
   const obj = localStorage.getItem(FORM_STORAGE_KEY);
   localStorage.removeItem(FORM_STORAGE_KEY);
+  validation();
 
   console.log(JSON.parse(obj));
 }
@@ -38,6 +39,13 @@ function setFormFields(obj) {
   for (const key in obj) {
     refs.form[key].value = obj[key];
   }
+}
+
+function validation() {
+  if (!formData['email'] || !formData['message']) {
+    return alert('Please, fill all form fields');
+  }
+  return console.log(formData);
 }
 
 window.addEventListener('load', getStorageData);

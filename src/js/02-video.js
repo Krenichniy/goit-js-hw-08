@@ -14,6 +14,7 @@ const throttledTimeUpdate = throttle(takeValueSeconds, 1000);
 
 function takeValueSeconds(data) {
   localStorage.setItem(STORAGE_KEY, Number.parseInt(data.seconds));
+  player.setMuted(false);
 }
 
 player.on('timeupdate', throttledTimeUpdate);
