@@ -6,7 +6,8 @@ const refs = {
 
 const FORM_STORAGE_KEY = 'feedback-form-state';
 
-const formData = {};
+let formData ;
+
 
 refs.form.addEventListener('submit', onFormSubmit);
 refs.form.addEventListener('input', throttle(addFormFields, 500));
@@ -14,25 +15,40 @@ refs.form.addEventListener('input', throttle(addFormFields, 500));
 function onFormSubmit(event) {
   event.preventDefault();
 
-  event.currentTarget.reset();
-  const obj = localStorage.getItem(FORM_STORAGE_KEY);
-  localStorage.removeItem(FORM_STORAGE_KEY);
-  validation();
+  // validation
+ if (!formData['email'] || !formData['message']) {
 
-  console.log(JSON.parse(obj));
+    return alert('Please, fill all form fields');
+  }
+ 
+  clearFormData(formData);
+
+  localStorage.removeItem(FORM_STORAGE_KEY);
+  event.currentTarget.reset();
+  console.log(formData);
+
+}
+
+function clearFormData (obj){
+    for (const key in obj) {
+    delete obj[key];
+  }
 }
 
 function addFormFields(event) {
+
   formData[event.target.name] = event.target.value;
   localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formData));
 }
 
 function getStorageData() {
-  const parcedData = JSON.parse(localStorage.getItem(FORM_STORAGE_KEY));
-  if (parcedData) {
-    console.log(parcedData);
-    setFormFields(parcedData);
+  formData = JSON.parse(localStorage.getItem(FORM_STORAGE_KEY));
+  if (formData) {
+    setFormFields(formData);
+  } else {
+    formData = {};
   }
+  
 }
 
 function setFormFields(obj) {
@@ -41,11 +57,5 @@ function setFormFields(obj) {
   }
 }
 
-function validation() {
-  if (!formData['email'] || !formData['message']) {
-    return alert('Please, fill all form fields');
-  }
-  return console.log(formData);
-}
 
 window.addEventListener('load', getStorageData);
