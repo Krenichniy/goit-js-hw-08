@@ -21,11 +21,12 @@ function onFormSubmit(event) {
     return alert('Please, fill all form fields');
   }
  
-  clearFormData(formData);
+
 
   localStorage.removeItem(FORM_STORAGE_KEY);
+   console.log(formData);
   event.currentTarget.reset();
-  console.log(formData);
+   clearFormData(formData);
 
 }
 
